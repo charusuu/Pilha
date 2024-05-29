@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <locale.h>
 
-// DefiniÁ„o da estrutura do nÛ da pilha
+// Defini√ß√£o da estrutura do n√≥ da pilha
 typedef struct Node {
     int data;
     struct Node* next;
 } Node;
 
-// FunÁ„o para criar um novo nÛ
+// Fun√ß√£o para criar um novo n√≥
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (!newNode) {
-        printf("Erro de alocaÁ„o de memÛria\n");
+        printf("Erro de aloca√ß√£o de mem√≥ria\n");
         exit(1);
     }
     newNode->data = data;
@@ -20,65 +20,42 @@ Node* createNode(int data) {
     return newNode;
 }
 
-// FunÁ„o para verificar se a pilha est· vazia
+// Fun√ß√£o para verificar se a pilha est√° vazia
 int isEmpty(Node* top) {
     return top == NULL;
 }
 
-// FunÁ„o para inserir um elemento na pilha
+// Fun√ß√£o para inserir um elemento na pilha
 void push(Node** top, int data) {
     Node* newNode = createNode(data);
-    if (isEmpty(*top)) {
-        *top = newNode;
-    } else {
-        Node* temp = *top;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-    }
+    newNode->next = *top;
+    *top = newNode;
     printf("%d inserido na pilha\n", data);
 }
 
-// FunÁ„o para remover um elemento da pilha
+// Fun√ß√£o para remover um elemento da pilha
 int pop(Node** top) {
     if (isEmpty(*top)) {
-        printf("Pilha vazia. N„o È possÌvel remover elementos.\n");
-        return -1; // Indicador de erro, j· que a pilha est· vazia
+        printf("Pilha vazia. N√£o √© poss√≠vel remover elementos.\n");
+        return -1; // Indicador de erro, j√° que a pilha est√° vazia
     }
     Node* temp = *top;
-    if (temp->next == NULL) {
-        int poppedData = temp->data;
-        free(temp);
-        *top = NULL;
-        return poppedData;
-    }
-
-    Node* prev = NULL;
-    while (temp->next != NULL) {
-        prev = temp;
-        temp = temp->next;
-    }
     int poppedData = temp->data;
+    *top = (*top)->next;
     free(temp);
-    prev->next = NULL;
     return poppedData;
 }
 
-// FunÁ„o para exibir o elemento no topo da pilha
+// Fun√ß√£o para exibir o elemento no topo da pilha
 int peek(Node* top) {
     if (isEmpty(top)) {
         printf("Pilha vazia.\n");
-        return -1; // Indicador de erro, j· que a pilha est· vazia
+        return -1; // Indicador de erro, j√° que a pilha est√° vazia
     }
-    Node* temp = top;
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-    return temp->data;
+    return top->data;
 }
 
-// FunÁ„o para imprimir todos os elementos da pilha
+// Fun√ß√£o para imprimir todos os elementos da pilha
 void printStack(Node* top) {
     Node* temp = top;
     printf("Elementos na pilha:\n");
@@ -101,7 +78,7 @@ int main() {
         printf("3. Mostrar elemento no topo da pilha\n");
         printf("4. Mostrar todos os elementos da pilha\n");
         printf("5. Sair\n");
-        printf("Escolha uma opÁ„o: ");
+        printf("Escolha uma op√ß√£o: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
@@ -129,7 +106,7 @@ int main() {
                 printf("Saindo...\n");
                 break;
             default:
-                printf("OpÁ„o inv·lida. Tente novamente.\n");
+                printf("Op√ß√£o inv√°lida. Tente novamente.\n");
         }
     } while (opcao != 5);
 
